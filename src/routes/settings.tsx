@@ -206,6 +206,7 @@ function SettingsPage() {
 
         <Section title="त्वरित पहुँच">
           <LinkRow to="/exam-syllabus" icon={FileText} label="RVUNL / जूनियर असिस्टेंट भर्ती सिलेबस" />
+          <LinkRow to="/prep-guide" icon={GraduationCap} label="तैयारी गाइड (योजना व रणनीति)" />
           <LinkRow to="/schedule" icon={CalendarClock} label="डेली स्टडी शेड्यूल" />
           <LinkRow to="/stats" icon={BarChart3} label="सांख्यिकी व उपलब्धियाँ" />
           <LinkRow to="/notes" icon={StickyNote} label="सभी नोट्स" />

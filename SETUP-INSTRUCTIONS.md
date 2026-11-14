@@ -86,14 +86,18 @@ App me `examScheme.ts` ke `EXAM_SCHEME_META.notes` me ye correction pehle hi
 note ke roop me daal diya hai (RVUNL/DISCOM Tracker ke "सिलेबस" page par
 dikhega).
 
-Baaki confirm ho gaya: 140 प्रश्न / 200 अंक / 2 घंटे, negative marking sirf
-Main-examination me (exact % official PDF me nahi diya — kuch third-party
-sources 0.25 batate hain, exam se pehle khud confirm kar lena), passing marks
-UR 30% / reserved categories 20%, koi interview nahi.
+अपडेट (06-11-2026 की Pre-Examination स्कीम के अनुसार):
 
-Subject-wise marks split (Reasoning 20/20, Rajasthan GK 45/90, etc.) official
-PDF me nahi mila — wo sirf third-party source (toppersexam.com) se hai, isliye
-indicative maano.
+- Pre-Examination: 70 प्रश्न, 100 अंक, 60 मिनट, Omnibus पेपर, हर प्रश्न में 5 विकल्प,
+  नेगेटिव मार्किंग नहीं।
+- अंक-विभाजन: रीजनिंग 10, राजस्थान GK 23 प्रश्न (46 अंक), विश्व/भारत GK + विज्ञान
+  7 प्रश्न (14 अंक), हिंदी 10, अंग्रेज़ी 10, गणित 10।
+- Main-Examination की स्कीम अभी जारी नहीं हुई है। नेगेटिव मार्किंग का अनुपात
+  (ऐप में 0.25, अनुमान) पुष्टि होने पर `examScheme.ts` में बदलें।
+- पासिंग अंक: UR 30%, आरक्षित वर्ग 20% (दूसरी वेबसाइटों के अनुसार)। कोई इंटरव्यू नहीं।
+
+पुराना "140 प्रश्न / 200 अंक / 2 घंटे" और विषय-वार बँटवारा (20/45/15/20/20/20)
+Pre-Examination के लिए सही नहीं निकला, इसलिए हटा दिया गया है।
 
 ## Kya badla hai Raj Setu Tracker se
 
