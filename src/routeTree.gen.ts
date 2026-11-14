@@ -9,16 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ScheduleRouteImport } from './routes/schedule'
+import { Route as WrongAnswersRouteImport } from './routes/wrong-answers'
 import { Route as WeakRouteImport } from './routes/weak'
+import { Route as TypingRouteImport } from './routes/typing'
 import { Route as TodayRouteImport } from './routes/today'
 import { Route as TimetableRouteImport } from './routes/timetable'
+import { Route as StudyRouteImport } from './routes/study'
 import { Route as StatsRouteImport } from './routes/stats'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as RevisionRouteImport } from './routes/revision'
 import { Route as NotesRouteImport } from './routes/notes'
+import { Route as MockTestRouteImport } from './routes/mock-test'
+import { Route as FlashcardsRouteImport } from './routes/flashcards'
+import { Route as ExamSyllabusRouteImport } from './routes/exam-syllabus'
 import { Route as DoubtsRouteImport } from './routes/doubts'
 import { Route as BookmarksRouteImport } from './routes/bookmarks'
 import { Route as IndexRouteImport } from './routes/index'
@@ -26,14 +32,19 @@ import { Route as SyllabusIndexRouteImport } from './routes/syllabus.index'
 import { Route as SyllabusSubjectIdRouteImport } from './routes/syllabus.$subjectId'
 import { Route as SyllabusSubjectIdUnitIdRouteImport } from './routes/syllabus.$subjectId.$unitId'
 
+const WrongAnswersRoute = WrongAnswersRouteImport.update({
+  id: '/wrong-answers',
+  path: '/wrong-answers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WeakRoute = WeakRouteImport.update({
   id: '/weak',
   path: '/weak',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ScheduleRoute = ScheduleRouteImport.update({
-  id: '/schedule',
-  path: '/schedule',
+const TypingRoute = TypingRouteImport.update({
+  id: '/typing',
+  path: '/typing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TodayRoute = TodayRouteImport.update({
@@ -44,6 +55,11 @@ const TodayRoute = TodayRouteImport.update({
 const TimetableRoute = TimetableRouteImport.update({
   id: '/timetable',
   path: '/timetable',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudyRoute = StudyRouteImport.update({
+  id: '/study',
+  path: '/study',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StatsRoute = StatsRouteImport.update({
@@ -66,6 +82,11 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ScheduleRoute = ScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RevisionRoute = RevisionRouteImport.update({
   id: '/revision',
   path: '/revision',
@@ -74,6 +95,21 @@ const RevisionRoute = RevisionRouteImport.update({
 const NotesRoute = NotesRouteImport.update({
   id: '/notes',
   path: '/notes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MockTestRoute = MockTestRouteImport.update({
+  id: '/mock-test',
+  path: '/mock-test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FlashcardsRoute = FlashcardsRouteImport.update({
+  id: '/flashcards',
+  path: '/flashcards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExamSyllabusRoute = ExamSyllabusRouteImport.update({
+  id: '/exam-syllabus',
+  path: '/exam-syllabus',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DoubtsRoute = DoubtsRouteImport.update({
@@ -111,6 +147,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
   '/doubts': typeof DoubtsRoute
+  '/exam-syllabus': typeof ExamSyllabusRoute
+  '/flashcards': typeof FlashcardsRoute
+  '/mock-test': typeof MockTestRoute
   '/notes': typeof NotesRoute
   '/revision': typeof RevisionRoute
   '/schedule': typeof ScheduleRoute
@@ -118,9 +157,12 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stats': typeof StatsRoute
+  '/study': typeof StudyRoute
   '/timetable': typeof TimetableRoute
   '/today': typeof TodayRoute
+  '/typing': typeof TypingRoute
   '/weak': typeof WeakRoute
+  '/wrong-answers': typeof WrongAnswersRoute
   '/syllabus/$subjectId': typeof SyllabusSubjectIdRouteWithChildren
   '/syllabus/': typeof SyllabusIndexRoute
   '/syllabus/$subjectId/$unitId': typeof SyllabusSubjectIdUnitIdRoute
@@ -129,6 +171,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
   '/doubts': typeof DoubtsRoute
+  '/exam-syllabus': typeof ExamSyllabusRoute
+  '/flashcards': typeof FlashcardsRoute
+  '/mock-test': typeof MockTestRoute
   '/notes': typeof NotesRoute
   '/revision': typeof RevisionRoute
   '/schedule': typeof ScheduleRoute
@@ -136,9 +181,12 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stats': typeof StatsRoute
+  '/study': typeof StudyRoute
   '/timetable': typeof TimetableRoute
   '/today': typeof TodayRoute
+  '/typing': typeof TypingRoute
   '/weak': typeof WeakRoute
+  '/wrong-answers': typeof WrongAnswersRoute
   '/syllabus/$subjectId': typeof SyllabusSubjectIdRouteWithChildren
   '/syllabus': typeof SyllabusIndexRoute
   '/syllabus/$subjectId/$unitId': typeof SyllabusSubjectIdUnitIdRoute
@@ -148,6 +196,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/bookmarks': typeof BookmarksRoute
   '/doubts': typeof DoubtsRoute
+  '/exam-syllabus': typeof ExamSyllabusRoute
+  '/flashcards': typeof FlashcardsRoute
+  '/mock-test': typeof MockTestRoute
   '/notes': typeof NotesRoute
   '/revision': typeof RevisionRoute
   '/schedule': typeof ScheduleRoute
@@ -155,9 +206,12 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stats': typeof StatsRoute
+  '/study': typeof StudyRoute
   '/timetable': typeof TimetableRoute
   '/today': typeof TodayRoute
+  '/typing': typeof TypingRoute
   '/weak': typeof WeakRoute
+  '/wrong-answers': typeof WrongAnswersRoute
   '/syllabus/$subjectId': typeof SyllabusSubjectIdRouteWithChildren
   '/syllabus/': typeof SyllabusIndexRoute
   '/syllabus/$subjectId/$unitId': typeof SyllabusSubjectIdUnitIdRoute
@@ -168,6 +222,9 @@ export interface FileRouteTypes {
     | '/'
     | '/bookmarks'
     | '/doubts'
+    | '/exam-syllabus'
+    | '/flashcards'
+    | '/mock-test'
     | '/notes'
     | '/revision'
     | '/schedule'
@@ -175,9 +232,12 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sitemap.xml'
     | '/stats'
+    | '/study'
     | '/timetable'
     | '/today'
+    | '/typing'
     | '/weak'
+    | '/wrong-answers'
     | '/syllabus/$subjectId'
     | '/syllabus/'
     | '/syllabus/$subjectId/$unitId'
@@ -186,6 +246,9 @@ export interface FileRouteTypes {
     | '/'
     | '/bookmarks'
     | '/doubts'
+    | '/exam-syllabus'
+    | '/flashcards'
+    | '/mock-test'
     | '/notes'
     | '/revision'
     | '/schedule'
@@ -193,9 +256,12 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sitemap.xml'
     | '/stats'
+    | '/study'
     | '/timetable'
     | '/today'
+    | '/typing'
     | '/weak'
+    | '/wrong-answers'
     | '/syllabus/$subjectId'
     | '/syllabus'
     | '/syllabus/$subjectId/$unitId'
@@ -204,6 +270,9 @@ export interface FileRouteTypes {
     | '/'
     | '/bookmarks'
     | '/doubts'
+    | '/exam-syllabus'
+    | '/flashcards'
+    | '/mock-test'
     | '/notes'
     | '/revision'
     | '/schedule'
@@ -211,9 +280,12 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sitemap.xml'
     | '/stats'
+    | '/study'
     | '/timetable'
     | '/today'
+    | '/typing'
     | '/weak'
+    | '/wrong-answers'
     | '/syllabus/$subjectId'
     | '/syllabus/'
     | '/syllabus/$subjectId/$unitId'
@@ -223,6 +295,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookmarksRoute: typeof BookmarksRoute
   DoubtsRoute: typeof DoubtsRoute
+  ExamSyllabusRoute: typeof ExamSyllabusRoute
+  FlashcardsRoute: typeof FlashcardsRoute
+  MockTestRoute: typeof MockTestRoute
   NotesRoute: typeof NotesRoute
   RevisionRoute: typeof RevisionRoute
   ScheduleRoute: typeof ScheduleRoute
@@ -230,20 +305,37 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StatsRoute: typeof StatsRoute
+  StudyRoute: typeof StudyRoute
   TimetableRoute: typeof TimetableRoute
   TodayRoute: typeof TodayRoute
+  TypingRoute: typeof TypingRoute
   WeakRoute: typeof WeakRoute
+  WrongAnswersRoute: typeof WrongAnswersRoute
   SyllabusSubjectIdRoute: typeof SyllabusSubjectIdRouteWithChildren
   SyllabusIndexRoute: typeof SyllabusIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wrong-answers': {
+      id: '/wrong-answers'
+      path: '/wrong-answers'
+      fullPath: '/wrong-answers'
+      preLoaderRoute: typeof WrongAnswersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/weak': {
       id: '/weak'
       path: '/weak'
       fullPath: '/weak'
       preLoaderRoute: typeof WeakRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/typing': {
+      id: '/typing'
+      path: '/typing'
+      fullPath: '/typing'
+      preLoaderRoute: typeof TypingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/today': {
@@ -258,6 +350,13 @@ declare module '@tanstack/react-router' {
       path: '/timetable'
       fullPath: '/timetable'
       preLoaderRoute: typeof TimetableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/study': {
+      id: '/study'
+      path: '/study'
+      fullPath: '/study'
+      preLoaderRoute: typeof StudyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stats': {
@@ -288,13 +387,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/revision': {
-      id: '/revision'
-      path: '/revision'
-      fullPath: '/revision'
-      preLoaderRoute: typeof RevisionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/schedule': {
       id: '/schedule'
       path: '/schedule'
@@ -302,11 +394,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScheduleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/revision': {
+      id: '/revision'
+      path: '/revision'
+      fullPath: '/revision'
+      preLoaderRoute: typeof RevisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notes': {
       id: '/notes'
       path: '/notes'
       fullPath: '/notes'
       preLoaderRoute: typeof NotesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mock-test': {
+      id: '/mock-test'
+      path: '/mock-test'
+      fullPath: '/mock-test'
+      preLoaderRoute: typeof MockTestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/flashcards': {
+      id: '/flashcards'
+      path: '/flashcards'
+      fullPath: '/flashcards'
+      preLoaderRoute: typeof FlashcardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exam-syllabus': {
+      id: '/exam-syllabus'
+      path: '/exam-syllabus'
+      fullPath: '/exam-syllabus'
+      preLoaderRoute: typeof ExamSyllabusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/doubts': {
@@ -369,6 +489,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookmarksRoute: BookmarksRoute,
   DoubtsRoute: DoubtsRoute,
+  ExamSyllabusRoute: ExamSyllabusRoute,
+  FlashcardsRoute: FlashcardsRoute,
+  MockTestRoute: MockTestRoute,
   NotesRoute: NotesRoute,
   RevisionRoute: RevisionRoute,
   ScheduleRoute: ScheduleRoute,
@@ -376,9 +499,12 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StatsRoute: StatsRoute,
+  StudyRoute: StudyRoute,
   TimetableRoute: TimetableRoute,
   TodayRoute: TodayRoute,
+  TypingRoute: TypingRoute,
   WeakRoute: WeakRoute,
+  WrongAnswersRoute: WrongAnswersRoute,
   SyllabusSubjectIdRoute: SyllabusSubjectIdRouteWithChildren,
   SyllabusIndexRoute: SyllabusIndexRoute,
 }

@@ -2,6 +2,16 @@
 // Source: RVUN का आधिकारिक Advertisement No. RVUN/Rectt.-2026-27/03, दिनांक 04 अगस्त 2026
 // (Chief Personnel Officer द्वारा digitally signed नोटिफिकेशन से सीधे लिया गया)
 
+export type MockMode = "pre" | "main";
+
+// Pre-examination: नेगेटिव मार्किंग नहीं (आधिकारिक नोटिफिकेशन)।
+// Main-examination: नेगेटिव मार्किंग है, पर सटीक अनुपात नोटिफिकेशन में नहीं दिया।
+// 0.25 एक अनुमान है (कुछ स्रोतों के अनुसार) — पुष्टि होने पर सिर्फ यही मान बदलें।
+export const NEGATIVE_MARKING_BY_MODE: Record<MockMode, number> = {
+  pre: 0,
+  main: 0.25,
+};
+
 export interface ExamSchemeSection {
   id: string;
   title: string;
