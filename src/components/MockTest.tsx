@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { Clock, AlertCircle } from "lucide-react";
 import { getAllCachedMCQFlat, putMockTestAttempt, type CachedMCQQuestion } from "@/lib/db/db";
+import { NEGATIVE_MARKING_BY_MODE, type MockMode } from "@/lib/syllabus/examScheme";
 
 type QuestionWithTopic = CachedMCQQuestion & { topicId: string };
 
 interface Props {
   questionCount: number; // 25 / 50 / 100
+  mode: MockMode; // pre = no negative marking, main = negative marking
   onFinish: () => void;
 }
 
-// RVUNL/DISCOM me negative marking ka exact pattern official notification se confirm kar lena —
-// yahan standard 1/3rd negative marking use ki hai (badalna ho to yahi constant change karo).
-const NEGATIVE_MARKING_FRACTION = 1 / 3;
 const SECONDS_PER_QUESTION = 60; // ~1 min per question, adjust as needed
 
 function shuffle<T>(arr: T[]): T[] {
@@ -23,7 +22,8 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export function MockTest({ questionCount, onFinish }: Props) {
+export function MockTest({ questionCount, mode, onFinish }: Props) {
+  const negativeFraction = NEGATIVE_MARKING_BY_MODE[mode];
   const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState<QuestionWithTopic[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,7 +72,7 @@ export function MockTest({ questionCount, onFinish }: Props) {
       else if (ans === q.correct_option) correct++;
       else wrong++;
     });
-    const score = Math.round((correct - wrong * NEGATIVE_MARKING_FRACTION) * 100) / 100;
+    const score = Math.round((correct - wrong * negativeFraction) * 100) / 100;
     const durationSeconds = Math.round((Date.now() - startedAtRef.current) / 1000);
 
     await putMockTestAttempt({
@@ -81,6 +81,7 @@ export function MockTest({ questionCount, onFinish }: Props) {
       totalQuestions: questions.length,
       correct, wrong, skipped, score,
       durationSeconds,
+      mode,
       createdAt: Date.now(),
     });
   };
@@ -107,13 +108,13 @@ export function MockTest({ questionCount, onFinish }: Props) {
       else if (ans === q.correct_option) correct++;
       else wrong++;
     });
-    const score = Math.round((correct - wrong * NEGATIVE_MARKING_FRACTION) * 100) / 100;
+    const score = Math.round((correct - wrong * negativeFraction) * 100) / 100;
 
     return (
       <div className="card-surface space-y-3 p-4 text-center">
         <h3 className="text-lg font-bold">मॉक टेस्ट पूरा हुआ! 🎯</h3>
         <div className="text-3xl font-black text-primary">{score}</div>
-        <p className="text-xs text-muted-foreground">कुल {questions.length} सवाल (नेगेटिव मार्किंग -1/3 शामिल)</p>
+        <p className="text-xs text-muted-foreground">कुल {questions.length} सवाल {negativeFraction > 0 ? `(नेगेटिव मार्किंग -${negativeFraction} शामिल)` : "(Pre: नेगेटिव मार्किंग नहीं)"}</p>
         <div className="grid grid-cols-3 gap-2 pt-2 text-xs">
           <div className="rounded-lg bg-emerald-500/10 p-2 font-semibold text-emerald-600">{correct} सही</div>
           <div className="rounded-lg bg-rose-500/10 p-2 font-semibold text-rose-600">{wrong} गलत</div>

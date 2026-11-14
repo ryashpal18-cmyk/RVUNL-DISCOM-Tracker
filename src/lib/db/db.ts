@@ -326,6 +326,7 @@ export interface MockTestAttempt {
   skipped: number;
   score: number; // negative marking ke baad final score
   durationSeconds: number;
+  mode?: "pre" | "main"; // purane attempts me nahi hota
   createdAt: number;
 }
 
@@ -433,17 +434,29 @@ export async function clearAll() {
 
 export async function exportAll() {
   const data = await loadAll();
+  const db = await getDB();
+  const [mcqStats, wrongAnswerBank, mockTestHistory] = await Promise.all([
+    db.getAll("mcqStats") as Promise<MCQStatsRow[]>,
+    db.getAll("wrongAnswerBank") as Promise<WrongAnswerRow[]>,
+    db.getAll("mockTestHistory") as Promise<MockTestAttempt[]>,
+  ]);
   return {
-    version: 2,
+    version: 3,
     exportedAt: new Date().toISOString(),
     ...data,
+    mcqStats,
+    wrongAnswerBank,
+    mockTestHistory,
   };
 }
 
 export async function importAll(data: Awaited<ReturnType<typeof exportAll>>) {
   await clearAll();
   const db = await getDB();
-  const stores = ["topicState", "settings", "dailyLog", "streak", "timetable", "personalReminders"] as const;
+  const stores = [
+    "topicState", "settings", "dailyLog", "streak", "timetable", "personalReminders",
+    "mcqStats", "wrongAnswerBank", "mockTestHistory",
+  ] as const;
   const tx = db.transaction(stores, "readwrite");
   await Promise.all([
     ...data.topicStates.map((t) => tx.objectStore("topicState").put(t)),
@@ -452,6 +465,10 @@ export async function importAll(data: Awaited<ReturnType<typeof exportAll>>) {
     tx.objectStore("streak").put(data.streak),
     ...(data.timetable ?? []).map((t) => tx.objectStore("timetable").put(t)),
     ...(data.personalReminders ?? []).map((r) => tx.objectStore("personalReminders").put(r)),
+    // version 3 backups me ye aate hain; purane (v2) backups me nahi, to skip.
+    ...(data.mcqStats ?? []).map((r) => tx.objectStore("mcqStats").put(r)),
+    ...(data.wrongAnswerBank ?? []).map((r) => tx.objectStore("wrongAnswerBank").put(r)),
+    ...(data.mockTestHistory ?? []).map((r) => tx.objectStore("mockTestHistory").put(r)),
   ]);
   await tx.done;
 }
