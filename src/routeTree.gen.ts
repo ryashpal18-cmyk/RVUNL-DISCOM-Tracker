@@ -21,6 +21,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as ScheduleRouteImport } from './routes/schedule'
 import { Route as RevisionRouteImport } from './routes/revision'
+import { Route as PrepGuideRouteImport } from './routes/prep-guide'
 import { Route as NotesRouteImport } from './routes/notes'
 import { Route as MockTestRouteImport } from './routes/mock-test'
 import { Route as FlashcardsRouteImport } from './routes/flashcards'
@@ -92,6 +93,11 @@ const RevisionRoute = RevisionRouteImport.update({
   path: '/revision',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrepGuideRoute = PrepGuideRouteImport.update({
+  id: '/prep-guide',
+  path: '/prep-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotesRoute = NotesRouteImport.update({
   id: '/notes',
   path: '/notes',
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/flashcards': typeof FlashcardsRoute
   '/mock-test': typeof MockTestRoute
   '/notes': typeof NotesRoute
+  '/prep-guide': typeof PrepGuideRoute
   '/revision': typeof RevisionRoute
   '/schedule': typeof ScheduleRoute
   '/search': typeof SearchRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/flashcards': typeof FlashcardsRoute
   '/mock-test': typeof MockTestRoute
   '/notes': typeof NotesRoute
+  '/prep-guide': typeof PrepGuideRoute
   '/revision': typeof RevisionRoute
   '/schedule': typeof ScheduleRoute
   '/search': typeof SearchRoute
@@ -200,6 +208,7 @@ export interface FileRoutesById {
   '/flashcards': typeof FlashcardsRoute
   '/mock-test': typeof MockTestRoute
   '/notes': typeof NotesRoute
+  '/prep-guide': typeof PrepGuideRoute
   '/revision': typeof RevisionRoute
   '/schedule': typeof ScheduleRoute
   '/search': typeof SearchRoute
@@ -226,6 +235,7 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/mock-test'
     | '/notes'
+    | '/prep-guide'
     | '/revision'
     | '/schedule'
     | '/search'
@@ -250,6 +260,7 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/mock-test'
     | '/notes'
+    | '/prep-guide'
     | '/revision'
     | '/schedule'
     | '/search'
@@ -274,6 +285,7 @@ export interface FileRouteTypes {
     | '/flashcards'
     | '/mock-test'
     | '/notes'
+    | '/prep-guide'
     | '/revision'
     | '/schedule'
     | '/search'
@@ -299,6 +311,7 @@ export interface RootRouteChildren {
   FlashcardsRoute: typeof FlashcardsRoute
   MockTestRoute: typeof MockTestRoute
   NotesRoute: typeof NotesRoute
+  PrepGuideRoute: typeof PrepGuideRoute
   RevisionRoute: typeof RevisionRoute
   ScheduleRoute: typeof ScheduleRoute
   SearchRoute: typeof SearchRoute
@@ -401,6 +414,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RevisionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prep-guide': {
+      id: '/prep-guide'
+      path: '/prep-guide'
+      fullPath: '/prep-guide'
+      preLoaderRoute: typeof PrepGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/notes': {
       id: '/notes'
       path: '/notes'
@@ -493,6 +513,7 @@ const rootRouteChildren: RootRouteChildren = {
   FlashcardsRoute: FlashcardsRoute,
   MockTestRoute: MockTestRoute,
   NotesRoute: NotesRoute,
+  PrepGuideRoute: PrepGuideRoute,
   RevisionRoute: RevisionRoute,
   ScheduleRoute: ScheduleRoute,
   SearchRoute: SearchRoute,

@@ -325,6 +325,7 @@ export interface MockTestAttempt {
   wrong: number;
   skipped: number;
   score: number; // negative marking ke baad final score
+  maxScore?: number; // is attempt ke total possible marks (purane attempts me nahi hota)
   durationSeconds: number;
   mode?: "pre" | "main"; // purane attempts me nahi hota
   createdAt: number;

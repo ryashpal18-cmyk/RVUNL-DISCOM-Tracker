@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import {
   Accordion,
@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { EXAM_SCHEME_META, EXAM_SCHEME_SECTIONS, SUBJECT_MARKS_DISTRIBUTION } from "@/lib/syllabus/examScheme";
-import { FileText, HelpCircle, Award, Clock, AlertTriangle } from "lucide-react";
+import { FileText, HelpCircle, Award, Clock, AlertTriangle, BookOpenCheck } from "lucide-react";
 
 export const Route = createFileRoute("/exam-syllabus")({
   head: () => ({
@@ -38,6 +38,16 @@ function ExamSyllabusPage() {
         </div>
       </section>
 
+      <Link to="/prep-guide" className="card-surface mt-3 flex items-center gap-3 p-3">
+        <div className="grid h-9 w-9 place-items-center rounded-lg gradient-primary">
+          <BookOpenCheck className="h-4 w-4" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="text-sm font-semibold">तैयारी गाइड</div>
+          <div className="text-xs text-muted-foreground">चयन प्रक्रिया, 3 हफ्ते की योजना, परीक्षा के दिन की रणनीति</div>
+        </div>
+      </Link>
+
       {/* Scheme stats */}
       <section className="mt-3 grid grid-cols-3 gap-3">
         <SchemeStat icon={HelpCircle} label="प्रश्न" value={String(EXAM_SCHEME_META.totalQuestions)} />
@@ -47,7 +57,7 @@ function ExamSyllabusPage() {
 
       {/* Subject-wise marks distribution */}
       <section className="mt-3">
-        <h3 className="mb-2 text-sm font-bold">विषयवार अंक विभाजन (कुल 140 प्रश्न / 200 अंक)</h3>
+        <h3 className="mb-2 text-sm font-bold">Pre-Examination: विषयवार अंक विभाजन ({EXAM_SCHEME_META.totalQuestions} प्रश्न / {EXAM_SCHEME_META.totalMarks} अंक)</h3>
         <div className="card-surface overflow-hidden p-0">
           <table className="w-full text-xs">
             <thead>

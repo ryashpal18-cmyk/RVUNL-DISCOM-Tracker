@@ -36,6 +36,7 @@ export const SYLLABUS: Subject[] = [
         t("reasoning-6", "दिशा ज्ञान परीक्षण (Direction Sense Test)"),
         t("reasoning-7", "वर्गीकरण (Classification)"),
         t("reasoning-8", "तार्किक क्रम (Logical Sequence of Words)"),
+        t("reasoning-14", "विश्लेषणात्मक तर्क (Analytical Reasoning)"),
       ]},
       { id: "reasoning-nonverbal", title: "नॉन-वर्बल रीजनिंग", topics: [
         t("reasoning-9", "आकृतियां और दर्पण प्रतिबिंब (Shapes and Mirror Images)"),
@@ -64,6 +65,11 @@ export const SYLLABUS: Subject[] = [
         t("maths-10", "यूनिटरी मेथड (Unitary Method)"),
         t("maths-11", "मिश्रण एवं साझेदारी (Mixture & Alligation, Partnership)"),
         t("maths-12", "क्षेत्रमिति व सरलीकरण (Mensuration & Simplification)"),
+      ]},
+      { id: "maths-algebra", title: "बीजगणित, ज्यामिति व आँकड़े", topics: [
+        t("maths-13", "बीजगणित (Algebra)"),
+        t("maths-14", "ज्यामिति (Geometry)"),
+        t("maths-15", "आँकड़ों की व्याख्या (Data Interpretation)"),
       ]},
     ],
   },
@@ -95,6 +101,28 @@ export const SYLLABUS: Subject[] = [
         t("gk-17", "समसामयिक व्यक्ति और स्थान (Persons & Places in News)"),
         t("gk-18", "खेल एवं खेलकूद (Games & Sports)"),
       ]},
+      { id: "gk-india-world", title: "भारत और विश्व (इतिहास व भूगोल)", topics: [
+        t("gk-19", "भारतीय इतिहास (Indian History)"),
+        t("gk-20", "भारत और विश्व का भूगोल"),
+      ]},
+      { id: "gk-raj-history", title: "राजस्थान का इतिहास (विस्तार)", topics: [
+        t("gk-21", "प्राचीन सभ्यताएँ और 1857 की क्रांति (राजस्थान)"),
+        t("gk-22", "प्रजामंडल आंदोलन और राजस्थान का एकीकरण"),
+      ]},
+      { id: "gk-raj-geo", title: "राजस्थान का भूगोल (विस्तार)", topics: [
+        t("gk-23", "नदियाँ, झीलें और मिट्टी"),
+        t("gk-24", "वन, वन्यजीव और खनिज"),
+        t("gk-25", "सिंचाई परियोजनाएँ और जिलों की जानकारी"),
+      ]},
+      { id: "gk-raj-culture", title: "राजस्थान की कला और संस्कृति (विस्तार)", topics: [
+        t("gk-26", "लोक नृत्य, लोक संगीत, मेले और त्योहार"),
+        t("gk-27", "राजस्थान की भाषा और बोलियाँ"),
+      ]},
+      { id: "gk-raj-admin", title: "राजस्थान का प्रशासन और ऊर्जा", topics: [
+        t("gk-28", "राज्यपाल, मुख्यमंत्री, विधानसभा, उच्च न्यायालय व आयोग"),
+        t("gk-29", "पंचायती राज"),
+        t("gk-30", "राजस्थान का ऊर्जा व बिजली क्षेत्र"),
+      ]},
       { id: "gk-science-unit", title: "दैनिक विज्ञान (कक्षा 10वीं स्तर)", topics: [
         t("gk-13", "भौतिक विज्ञान के बुनियादी सिद्धांत"),
         t("gk-14", "रसायन विज्ञान के बुनियादी सिद्धांत"),
@@ -120,6 +148,8 @@ export const SYLLABUS: Subject[] = [
         t("hindi-10", "त्रुटि पहचान (Error Detection)"),
         t("hindi-11", "रिक्त स्थानों की पूर्ति"),
         t("hindi-12", "गद्यांश (अपठित बोध / Comprehension)"),
+        t("hindi-13", "एक शब्द के लिए अनेक शब्द"),
+        t("hindi-14", "काल और विराम चिह्न"),
       ]},
     ],
   },
@@ -142,6 +172,9 @@ export const SYLLABUS: Subject[] = [
         t("english-11", "Idioms and Phrases"),
         t("english-12", "Error Detection / Sentence Improvement"),
         t("english-13", "Cloze Test / Fill in the Blanks"),
+        t("english-14", "Para Jumbles"),
+        t("english-15", "Sentence Completion"),
+        t("english-16", "Vocabulary"),
       ]},
     ],
   },
