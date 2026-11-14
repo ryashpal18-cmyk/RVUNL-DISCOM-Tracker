@@ -33,6 +33,9 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # Runner par SDK pehle se hai; default 'tools' package ab nahi milta, isliye skip.
+          packages: ""
 
       - name: Ensure release keystore exists (auto-create once, reuse forever)
         run: |
