@@ -10,6 +10,8 @@ import { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, Pie, PieChart, Res
 import { Award, Flame, Trophy, CheckCircle2, ListChecks, XCircle, Layers } from "lucide-react";
 import { getAllMcqStats, type MCQStatsRow } from "@/lib/mcq/mcqStats";
 import { computeReadiness } from "@/lib/stats/readiness";
+import { getAllMockTestAttempts, type MockTestAttempt } from "@/lib/db/db";
+import { findTopic } from "@/lib/syllabus/syllabusData";
 
 export const Route = createFileRoute("/stats")({
   head: () => ({ meta: [{ title: "सांख्यिकी" }, { name: "description", content: "प्रगति ग्राफ, स्ट्रीक व उपलब्धियाँ।" }] }),
@@ -23,6 +25,41 @@ function StatsPage() {
 
   const [mcqStats, setMcqStats] = useState<Record<string, MCQStatsRow>>({});
   useEffect(() => { getAllMcqStats().then(setMcqStats); }, []);
+  const [mocks, setMocks] = useState<MockTestAttempt[]>([]);
+  useEffect(() => { getAllMockTestAttempts().then(setMocks); }, []);
+
+  // ---- साप्ताहिक रिपोर्ट: पिछले 7 दिन बनाम उससे पहले के 7 दिन ----
+  const weekly = useMemo(() => {
+    const dayKey = (offset: number) => {
+      const d = new Date(); d.setDate(d.getDate() - offset);
+      return d.toISOString().slice(0, 10);
+    };
+    const thisStart = dayKey(6), prevStart = dayKey(13);
+    const inRange = (date: string, from: string, to: string) => date >= from && date <= to;
+    const today = dayKey(0), prevEnd = dayKey(7);
+    const thisLogs = dailyLog.filter((d) => inRange(d.date, thisStart, today));
+    const prevLogs = dailyLog.filter((d) => inRange(d.date, prevStart, prevEnd));
+    const topics = thisLogs.reduce((n, d) => n + d.completedTopicIds.length, 0);
+    const prevTopics = prevLogs.reduce((n, d) => n + d.completedTopicIds.length, 0);
+    const minutes = thisLogs.reduce((n, d) => n + (d.minutes ?? 0), 0);
+    const activeDays = thisLogs.filter((d) => d.completedTopicIds.length > 0 || (d.minutes ?? 0) > 0).length;
+
+    const weekMocks = mocks.filter((m) => inRange(m.date, thisStart, today));
+    const pcts = weekMocks.filter((m) => m.maxScore).map((m) => Math.round((m.score / (m.maxScore as number)) * 100));
+    const avgMockPct = pcts.length ? Math.round(pcts.reduce((a, b) => a + b, 0) / pcts.length) : null;
+
+    // विषय-वार औसत MCQ सटीकता (जिन टॉपिक्स के टेस्ट दिए गए)
+    const bySubject = new Map<string, { sum: number; n: number }>();
+    for (const row of Object.values(mcqStats)) {
+      const subj = findTopic(row.topicId)?.subject.hindiName;
+      if (!subj) continue;
+      const v = bySubject.get(subj) ?? { sum: 0, n: 0 };
+      v.sum += row.lastAccuracyPct; v.n++;
+      bySubject.set(subj, v);
+    }
+    const subjectAcc = [...bySubject].map(([name, v]) => ({ name, pct: Math.round(v.sum / v.n) })).sort((a, b) => a.pct - b.pct);
+    return { topics, prevTopics, minutes, activeDays, mockCount: weekMocks.length, avgMockPct, weakest: subjectAcc[0] ?? null, strongest: subjectAcc.length > 1 ? subjectAcc[subjectAcc.length - 1] : null };
+  }, [dailyLog, mocks, mcqStats]);
 
   const readiness = useMemo(
     () => computeReadiness({ completedTopics: completed, totalTopics: all.length, mcqStats }),
@@ -64,6 +101,28 @@ function StatsPage() {
           <h2 className="self-start text-sm font-bold">परीक्षा तैयारी स्कोर</h2>
           <CircularProgress value={readiness.score} label={readiness.label} sublabel={`${readiness.coveragePct}% syllabus · ${readiness.avgAccuracyPct}% accuracy`} />
           <ShareProgressCard completed={completed} total={all.length} streak={streak.longest} readinessScore={readiness.score} />
+        </div>
+
+        <div className="card-surface space-y-3 p-4">
+          <h2 className="text-sm font-bold">इस हफ्ते की रिपोर्ट (पिछले 7 दिन)</h2>
+          <div className="grid grid-cols-2 gap-2 text-center">
+            <WeeklyStat value={String(weekly.topics)} label={`टॉपिक पूरे (पिछले हफ्ते ${weekly.prevTopics})`} />
+            <WeeklyStat value={`${weekly.activeDays}/7`} label="पढ़ाई वाले दिन" />
+            <WeeklyStat value={`${Math.floor(weekly.minutes / 60)}घं ${weekly.minutes % 60}मि`} label="पढ़ाई का समय" />
+            <WeeklyStat value={weekly.avgMockPct == null ? String(weekly.mockCount) : `${weekly.avgMockPct}%`} label={weekly.avgMockPct == null ? "मॉक टेस्ट दिए" : `${weekly.mockCount} मॉक का औसत`} />
+          </div>
+          {weekly.weakest ? (
+            <p className="text-xs text-muted-foreground">
+              सबसे कमज़ोर विषय: <span className="font-bold text-rose-600">{weekly.weakest.name} ({weekly.weakest.pct}%)</span>
+              {weekly.strongest && <>, सबसे मज़बूत: <span className="font-bold text-emerald-600">{weekly.strongest.name} ({weekly.strongest.pct}%)</span></>}
+              {" "}(MCQ टेस्ट की सटीकता के आधार पर)
+            </p>
+          ) : (
+            <p className="text-xs text-muted-foreground">टॉपिक के MCQ टेस्ट देने पर यहाँ कमज़ोर और मज़बूत विषय दिखेंगे।</p>
+          )}
+          {weekly.topics < weekly.prevTopics && (
+            <p className="text-[11px] font-semibold text-amber-600">इस हफ्ते पिछले हफ्ते से कम टॉपिक पूरे हुए। रोज़ का लक्ष्य पूरा करने की कोशिश करें।</p>
+          )}
         </div>
 
         <div className="card-surface p-4">
@@ -156,5 +215,14 @@ function StatsPage() {
         </div>
       </div>
     </AppShell>
+  );
+}
+
+function WeeklyStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="rounded-xl bg-muted px-2 py-2">
+      <div className="text-lg font-black leading-none tabular-nums text-primary">{value}</div>
+      <div className="mt-1 text-[10px] leading-tight text-muted-foreground">{label}</div>
+    </div>
   );
 }
