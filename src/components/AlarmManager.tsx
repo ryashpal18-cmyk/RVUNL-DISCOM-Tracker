@@ -71,7 +71,7 @@ export function AlarmManager() {
           <motion.div
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
-            className="w-full max-w-sm rounded-3xl border-4 border-primary bg-card p-8 text-center"
+            className="w-full max-w-sm rounded-3xl border-4 border-primary bg-popover p-8 text-center"
           >
             <BellRing className="mx-auto mb-4 h-16 w-16 animate-bounce text-primary" />
             <h2 className="mb-2 text-2xl font-bold">समय हो गया है!</h2>

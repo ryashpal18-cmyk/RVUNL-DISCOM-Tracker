@@ -15,7 +15,7 @@ export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/95 backdrop-blur-md"
+      className="glass-bar fixed inset-x-0 bottom-0 z-40 border-t"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto grid max-w-screen-sm grid-cols-6">
@@ -26,22 +26,24 @@ export function BottomNav() {
             <li key={it.to}>
               <Link
                 to={it.to}
-                className="relative flex flex-col items-center justify-center gap-1 px-0.5 py-2.5 touch-tap"
+                className="relative flex flex-col items-center justify-center gap-0.5 px-0.5 py-2 touch-tap"
               >
-                {active && (
-                  <motion.span
-                    layoutId="bottom-nav-active"
-                    className="absolute inset-x-3 top-0 h-0.5 rounded-full gradient-primary"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                <span className="relative grid h-7 w-11 place-items-center">
+                  {active && (
+                    <motion.span
+                      layoutId="bottom-nav-active"
+                      className="absolute inset-0 rounded-full gradient-primary"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <Icon
+                    className="relative h-[18px] w-[18px] transition-colors"
+                    style={{ color: active ? "var(--color-primary-foreground)" : "var(--color-muted-foreground)" }}
                   />
-                )}
-                <Icon
-                  className="h-[18px] w-[18px] transition-colors"
-                  style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
-                />
+                </span>
                 <span
                   className="text-center text-[9.5px] leading-tight font-medium transition-colors"
-                  style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
+                  style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)", fontWeight: active ? 700 : 500 }}
                 >
                   {it.label}
                 </span>

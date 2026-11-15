@@ -26,7 +26,8 @@ export function MotivationModal({ isOpen, onClose }: Props) {
           <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
-            className="relative w-full max-w-sm rounded-3xl p-8 text-center text-white shadow-2xl gradient-primary"
+            className="relative w-full max-w-sm rounded-3xl border border-white/20 p-8 text-center text-white shadow-2xl"
+            style={{ background: "linear-gradient(140deg, oklch(0.42 0.2 280), oklch(0.5 0.22 320))" }}
           >
             <button onClick={onClose} className="absolute right-4 top-4 touch-tap" aria-label="बंद करें">
               <X size={24} />
@@ -36,7 +37,7 @@ export function MotivationModal({ isOpen, onClose }: Props) {
             <p className="text-lg font-medium italic">"{quote}"</p>
             <button
               onClick={onClose}
-              className="mt-8 w-full rounded-xl bg-white py-4 font-bold text-primary touch-tap"
+              className="mt-8 w-full rounded-xl bg-white py-4 font-bold text-[oklch(0.36_0.17_280)] touch-tap"
             >
               चलो, शुरू करते हैं!
             </button>

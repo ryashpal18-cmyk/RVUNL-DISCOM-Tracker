@@ -104,22 +104,23 @@ function Dashboard() {
 
       {/* Stat grid */}
       <section className="mt-3 grid grid-cols-2 gap-3">
-        <StatTile icon={Flame} label="वर्तमान स्ट्रीक" value={`${streak.current} दिन`} tone="primary" />
-        <StatTile icon={Trophy} label="सबसे लंबी स्ट्रीक" value={`${streak.longest} दिन`} tone="accent" />
-        <StatTile icon={Zap} label="इस सप्ताह" value={`${weekCompleted} पूर्ण`} tone="accent" />
-        <StatTile icon={Zap} label="इस माह" value={`${monthCompleted} पूर्ण`} tone="primary" />
+        <StatTile icon={Flame} label="वर्तमान स्ट्रीक" value={`${streak.current} दिन`} color="pink" />
+        <StatTile icon={Trophy} label="सबसे लंबी स्ट्रीक" value={`${streak.longest} दिन`} color="amber" />
+        <StatTile icon={Zap} label="इस सप्ताह" value={`${weekCompleted} पूर्ण`} color="teal" />
+        <StatTile icon={Zap} label="इस माह" value={`${monthCompleted} पूर्ण`} color="violet" />
       </section>
 
       {/* Quick links */}
       <section className="mt-3 space-y-2">
-        <QuickLink to="/typing" icon={Keyboard} label="टाइपिंग मास्टर" hint="OTG कीबोर्ड प्रैक्टिस — Gross/Net WPM व Accuracy" />
-        <QuickLink to="/mock-test" icon={ListChecks} label="मॉक टेस्ट (सभी विषय)" hint="25 / 50 / 100 सवाल, नेगेटिव मार्किंग सहित" />
-        <QuickLink to="/schedule" icon={CalendarClock} label="डेली स्टडी शेड्यूल" hint="5 घंटे टाइम-टेबल" />
-        <QuickLink to="/revision" icon={Repeat} label="रिवीजन बकाया" hint={`${revisionDue} टॉपिक्स`} />
-        <QuickLink to="/weak" icon={BookMarked} label="कमजोर विषय" hint="कठिन चिह्नित" />
+        <QuickLink to="/typing" icon={Keyboard} color="blue" label="टाइपिंग मास्टर" hint="OTG कीबोर्ड प्रैक्टिस — Gross/Net WPM व Accuracy" />
+        <QuickLink to="/mock-test" icon={ListChecks} color="violet" label="मॉक टेस्ट (सभी विषय)" hint="Pre: 70 सवाल / 60 मिनट · Main: नेगेटिव मार्किंग सहित" />
+        <QuickLink to="/schedule" icon={CalendarClock} color="teal" label="डेली स्टडी शेड्यूल" hint="5 घंटे टाइम-टेबल" />
+        <QuickLink to="/revision" icon={Repeat} color="green" label="रिवीजन बकाया" hint={`${revisionDue} टॉपिक्स`} />
+        <QuickLink to="/weak" icon={BookMarked} color="pink" label="कमजोर विषय" hint="कठिन चिह्नित" />
         <QuickLink
           to="/settings"
           icon={Calendar}
+          color="amber"
           label="परीक्षा तक शेष"
           hint={examDaysLeft !== null ? `${examDaysLeft} दिन` : "तिथि सेट करें"}
         />
@@ -128,7 +129,7 @@ function Dashboard() {
       {/* Quote */}
       <motion.blockquote
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-        className="mt-4 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4 text-center"
+        className="card-surface mt-4 border-dashed border-primary/40 p-4 text-center"
       >
         <p className="text-sm font-medium italic text-foreground">“{quote}”</p>
       </motion.blockquote>
@@ -136,12 +137,29 @@ function Dashboard() {
   );
 }
 
-function StatTile({ icon: Icon, label, value, tone }: { icon: any; label: string; value: string; tone: "primary" | "accent" }) {
+// हर टाइल/लिंक के आइकन का अपना रंग (दो रंगों का gradient)
+const ICON_GRADIENTS: Record<string, [string, string]> = {
+  violet: ["oklch(0.58 0.22 285)", "oklch(0.66 0.22 320)"],
+  pink: ["oklch(0.64 0.23 350)", "oklch(0.72 0.18 20)"],
+  amber: ["oklch(0.76 0.17 65)", "oklch(0.7 0.19 40)"],
+  teal: ["oklch(0.66 0.13 185)", "oklch(0.62 0.15 230)"],
+  green: ["oklch(0.66 0.17 155)", "oklch(0.7 0.15 125)"],
+  blue: ["oklch(0.58 0.18 255)", "oklch(0.66 0.14 215)"],
+};
+
+function iconStyle(color: keyof typeof ICON_GRADIENTS) {
+  const [a, b] = ICON_GRADIENTS[color];
+  return {
+    backgroundImage: `linear-gradient(135deg, ${a}, ${b})`,
+    color: "white",
+    boxShadow: `0 6px 14px -6px ${b}`,
+  };
+}
+
+function StatTile({ icon: Icon, label, value, color }: { icon: any; label: string; value: string; color: keyof typeof ICON_GRADIENTS }) {
   return (
     <div className="card-surface p-3">
-      <div className="grid h-8 w-8 place-items-center rounded-lg"
-           style={{ background: tone === "primary" ? "color-mix(in oklab, var(--color-primary) 15%, transparent)" : "color-mix(in oklab, var(--color-accent) 15%, transparent)",
-                    color: tone === "primary" ? "var(--color-primary)" : "var(--color-accent)" }}>
+      <div className="grid h-8 w-8 place-items-center rounded-lg" style={iconStyle(color)}>
         <Icon className="h-4 w-4" />
       </div>
       <div className="mt-2 text-lg font-black tabular-nums leading-none">{value}</div>
@@ -150,10 +168,10 @@ function StatTile({ icon: Icon, label, value, tone }: { icon: any; label: string
   );
 }
 
-function QuickLink({ to, icon: Icon, label, hint }: { to: string; icon: any; label: string; hint: string }) {
+function QuickLink({ to, icon: Icon, label, hint, color }: { to: string; icon: any; label: string; hint: string; color: keyof typeof ICON_GRADIENTS }) {
   return (
     <Link to={to} className="card-surface flex items-center gap-3 p-3">
-      <div className="grid h-9 w-9 place-items-center rounded-lg bg-muted text-foreground">
+      <div className="grid h-9 w-9 place-items-center rounded-xl" style={iconStyle(color)}>
         <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0 flex-1">
