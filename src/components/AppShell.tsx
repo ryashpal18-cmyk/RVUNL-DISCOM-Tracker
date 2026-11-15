@@ -14,8 +14,8 @@ interface AppShellProps {
 export function AppShell({ title, subtitle, back, action, children }: AppShellProps) {
   const router = useRouter();
   return (
-    <div className="min-h-screen bg-background pb-24" style={{ paddingTop: "env(safe-area-inset-top)" }}>
-      <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-md">
+    <div className="min-h-screen pb-24" style={{ paddingTop: "env(safe-area-inset-top)" }}>
+      <header className="glass-bar sticky top-0 z-30 border-b">
         <div className="mx-auto flex max-w-screen-sm items-center gap-3 px-4 py-3">
           {back ? (
             <button
@@ -31,11 +31,12 @@ export function AppShell({ title, subtitle, back, action, children }: AppShellPr
             </Link>
           )}
           <div className="min-w-0 flex-1">
-            <h1 className="truncate text-lg font-bold leading-tight">{title}</h1>
+            <h1 className="truncate bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-lg font-bold leading-tight text-transparent">{title}</h1>
             {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
           </div>
           {action}
         </div>
+        <div className="gradient-rainbow h-[3px] w-full opacity-80" />
       </header>
       <main className="mx-auto max-w-screen-sm px-4 py-4">{children}</main>
       <BottomNav />
